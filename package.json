@@ -1,0 +1,25 @@
+{
+  "name": "pre-compressed-assets",
+  "version": "0.0.1",
+  "description": "Middleware for using pre-compressed gzip or brotli files based on regex url pattern",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:domadams/pre-compressed-assets.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Dom Adams",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/domadams/pre-compressed-assets/issues"
+  },
+  "homepage": "https://github.com/domadams/pre-compressed-assets#readme",
+  "dependencies": {
+    "mime": "1.3.4"
+  }
+}
