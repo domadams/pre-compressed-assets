@@ -12,15 +12,15 @@ This solution can be used with any static server as long as this middleware is a
 You can still add dynamic compression for files that you don't have a static version for, just add the dynamic compression middleware layer after this one (ex. app.use(compression()))
 
 ## Installation
-	  $ npm install pre-compress-assets --save
+	  $ npm install pre-compressed-assets --save
 	  
 ## Usage
 ```javascript
-preCompressAssets =  require('pre-compress-assets')
+preCompressedAssets =  require('pre-compressed-assets')
 compression = require('compression');
 
 //Add the middleware express way:
-app.use(preCompressAssets(/(\.html|\.js|\.css)$/));
+app.use(preCompressedAssets(/(\.html|\.js|\.css)$/));
 
 //Add dynamic compression if you don't handle all files static
 app.use(compression());
