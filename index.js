@@ -8,10 +8,10 @@ module.exports = function preCompressAssets(urlRegexp) {
 
         //Check if we need to do something
         var acceptEncoding = request.headers['accept-encoding'] || '';
-        if (!urlRegexp.test(request.url)//Request url matches given regexp?
-            || !~acceptEncoding.indexOf('gzip')//Accept gzip encoding?
-            || (request.method !== 'GET' && request.method !== 'HEAD'))//GET/HEAD request?
-        {
+        if(
+            !urlRegexp.test(request.url) //Request url matches given regexp?
+            || (request.method !== 'GET' && request.method !== 'HEAD') //GET/HEAD request?
+        ) {
             return next();
         }
 
@@ -22,8 +22,17 @@ module.exports = function preCompressAssets(urlRegexp) {
         //Set the content type and default character set according to the original file
         response.setHeader('Content-Type', contentType + '; charset=' + characterSet);
 
-        //Change url
-        request.url = request.url + ".gz";
+        if(acceptEncoding.indexOf('br') > -1) {
+            //Change url based on encoding type.
+            request.url = request.url + ".br";
+            //Content encoding
+            response.setHeader('Content-Encoding', 'br');
+        } else if(acceptEncoding.indexOf('gzip') > -1){
+            //Change url based on encoding type.
+            request.url = request.url + ".gz";
+            //Content encoding
+            response.setHeader('Content-Encoding', 'gzip');
+        }
 
         //Vary
         var vary = response.getHeader('Vary');
@@ -32,9 +41,6 @@ module.exports = function preCompressAssets(urlRegexp) {
         } else if (!~vary.indexOf('Accept-Encoding')) {
             response.setHeader('Vary', vary + ', Accept-Encoding');
         }
-
-        //Content encoding
-        response.setHeader('Content-Encoding', 'gzip');
         return next();
     };
 };
