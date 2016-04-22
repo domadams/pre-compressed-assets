@@ -1,6 +1,6 @@
 'use strict';
 
-var mime = require('mime');
+var mime = require('mime-types');
 
 module.exports = function preCompressAssets(urlRegexp) {
 
@@ -17,7 +17,7 @@ module.exports = function preCompressAssets(urlRegexp) {
 
         //Get the original mime type and default character set
         var contentType = mime.lookup(request.url);
-        var characterSet = mime.charsets.lookup(contentType);
+        var characterSet = mime.charset(contentType);
 
         //Set the content type and default character set according to the original file
         response.setHeader('Content-Type', contentType + '; charset=' + characterSet);
