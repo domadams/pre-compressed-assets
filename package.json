@@ -1,8 +1,8 @@
 {
   "name": "pre-compressed-assets",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Middleware for using pre-compressed gzip or brotli files based on regex url pattern",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/domadams/pre-compressed-assets#readme",
   "dependencies": {
-    "mime-types": "2.1.10"
+    "mime-types": "2.1.19"
   }
 }
