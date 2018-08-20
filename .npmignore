@@ -1,0 +1,5 @@
+#ignore tests
+test/
+
+#ignore linting rules
+.eslintrc.js
