@@ -3,3 +3,6 @@ test/
 
 #ignore linting rules
 .eslintrc.js
+
+#ide
+.idea
