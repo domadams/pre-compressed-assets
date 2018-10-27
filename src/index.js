@@ -1,4 +1,3 @@
-var express = require('express');
 var mime = require('mime-types');
 var glob = require('glob');
 
