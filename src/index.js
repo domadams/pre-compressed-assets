@@ -1,4 +1,3 @@
-var mime = require('mime-types');
 var fs = require('fs');
 
 var preCompressedFiles = [];
@@ -25,8 +24,8 @@ module.exports = function preCompressAssets(urlRegexp, publicPath) {
     }
 
     // Get the original mime type and default character set
-    var contentType = mime.lookup(request.url);
-    var characterSet = mime.charset(contentType);
+    var contentType = express.static.mime.lookup(request.url);
+    var characterSet = express.static.mime.charset(contentType);
 
     // Set the content type and default character set according to the original file
     response.setHeader('Content-Type', contentType + '; charset=' + characterSet);
