@@ -25,6 +25,10 @@
     "url": "https://github.com/domadams/pre-compressed-assets/issues"
   },
   "homepage": "https://github.com/domadams/pre-compressed-assets#readme",
+  "dependencies": {
+    "glob": "^7.0.0",
+    "mime-types": "^2.0.0"
+  },
   "devDependencies": {
     "eslint": "^5.4.0",
     "rimraf": "^2.6.2"
