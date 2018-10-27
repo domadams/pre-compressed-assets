@@ -15,6 +15,7 @@
   "keywords": [
     "node",
     "express",
+    "middleware",
     "compression",
     "brotli",
     "gzip"
