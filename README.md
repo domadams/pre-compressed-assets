@@ -16,11 +16,11 @@ You can still add dynamic compression for files that you don't have a static ver
 	  
 ## Usage ES5
 ```javascript
-preCompressedAssets =  require('pre-compressed-assets');
+preCompressedAssets = require('pre-compressed-assets');
 compression = require('compression');
 
 //Add the middleware express way:
-app.use(preCompressedAssets(/\.(html|js|css)$/, path.join(__dirname, 'public')));
+app.use(preCompressedAssets(/\.(html|js|css)/, path.join(__dirname, 'public')));
 
 //Add dynamic compression if you don't handle all files static
 app.use(compression());
@@ -36,7 +36,7 @@ import preCompressedAssets from 'pre-compressed-assets';
 import compression from 'compression';
 
 //Add the middleware express way:
-app.use(preCompressedAssets(/\.(html|js|css)$/, path.join(__dirname, 'public')));
+app.use(preCompressedAssets(/\.(html|js|css)/, path.join(__dirname, 'public')));
 
 //Add dynamic compression if you don't handle all files static
 app.use(compression());
