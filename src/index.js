@@ -1,18 +1,26 @@
 var mime = require('mime-types');
 var fs = require('fs');
+var path = require('path');
 
-var preCompressedFiles = [];
+var preCompressedFiles = {};
 var extensionRegex = /(\.(br|gz))$/;
+
+function addDir(prefix,dir,fileRegex) {
+  const files = fs.readdirSync(path.join(prefix,dir));
+  files.forEach(function(filename) {
+    const file = path.join(prefix,dir,filename);
+    const url = path.join(dir,filename);
+    if (fs.statSync(file).isDirectory()) {
+      addDir(prefix,path.join(dir,filename),fileRegex);
+    } else if (fileRegex.test(url)) {
+      preCompressedFiles['/' + url] = true;
+    }
+  });
+}
 
 module.exports = function preCompressAssets(urlRegexp, publicPath) {
   var fileRegex = new RegExp(urlRegexp.source + extensionRegex.source);
-  fs.readdir(publicPath, function(err, files){
-    files.forEach(function(file) {
-      if (fileRegex.test(file)) {
-        preCompressedFiles.push('/' + file);
-      }
-    });
-  });
+  addDir(publicPath,'',fileRegex);
 
   return function compress(request, response, next) {
     // Check if we need to do something
@@ -31,12 +39,12 @@ module.exports = function preCompressAssets(urlRegexp, publicPath) {
     // Set the content type and default character set according to the original file
     response.setHeader('Content-Type', contentType + '; charset=' + characterSet);
 
-    if (acceptEncoding.indexOf('br') > -1 && preCompressedFiles.indexOf(request.url + '.br') > -1) {
+    if (acceptEncoding.indexOf('br') > -1 && preCompressedFiles[request.url + '.br']) {
       request.url = request.url + '.br';
-      response.setHeader('Content-Encoding', 'br');
-    } else if(acceptEncoding.indexOf('gzip') > -1 && preCompressedFiles.indexOf(request.url + '.gz') > -1) {
+      response.setHeader('Content-Encoding','br');
+    } else if(acceptEncoding.indexOf('gzip') > -1 && preCompressedFiles[request.url + '.gz']) {
       request.url = request.url + '.gz';
-      response.setHeader('Content-Encoding', 'gzip');
+      response.setHeader('Content-Encoding','gzip');
     }
 
     var vary = response.getHeader('Vary');
