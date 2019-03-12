@@ -27,7 +27,8 @@
   },
   "homepage": "https://github.com/domadams/pre-compressed-assets#readme",
   "dependencies": {
-    "glob": "^7.1.3"
+    "glob": "^7.1.3",
+    "mime-types": "^2.1.22"
   },
   "devDependencies": {
     "eslint": "^5.15.1",
