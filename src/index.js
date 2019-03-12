@@ -1,7 +1,7 @@
 var mime = require('mime-types');
 var glob = require('glob');
 
-var preCompressedFiles = [];
+var preCompressedFiles = {};
 var extensionRegex = /(\.(br|gz))$/;
 
 module.exports = function preCompressAssets(urlRegexp, publicPath) {
@@ -12,14 +12,12 @@ module.exports = function preCompressAssets(urlRegexp, publicPath) {
     filePaths.forEach(function(filePath) {
       if (fileRegex.test(filePath)) {
         var reducedFilePath = filePath.replace(publicPath, '');
-        preCompressedFiles.push(reducedFilePath);
+        preCompressedFiles[reducedFilePath] = true;
 
         // Add additional entry for `/` if contains compressed index.html
         var index = indexRegex.exec(reducedFilePath);
         if (index) {
-          preCompressedFiles.push(
-            reducedFilePath.replace(indexRegex, '') + index[1]
-          );
+          preCompressedFiles[reducedFilePath.replace(indexRegex, '') + index[1]] = true;
         }
       }
     });
@@ -54,10 +52,16 @@ module.exports = function preCompressAssets(urlRegexp, publicPath) {
     // Set the content type and default character set according to the original file
     response.setHeader('Content-Type', contentType + '; charset=' + characterSet);
 
-    if (acceptEncoding.indexOf('br') > -1 && preCompressedFiles.indexOf(request.url + '.br') > -1) {
+    if (
+      acceptEncoding.indexOf('br') > -1 &&
+      preCompressedFiles[request.url + '.br']
+    ) {
       request.url = (request.url === '/' ? 'index.html' : request.url) + '.br' + query;
       response.setHeader('Content-Encoding', 'br');
-    } else if(acceptEncoding.indexOf('gzip') > -1 && preCompressedFiles.indexOf(request.url + '.gz') > -1) {
+    } else if(
+      acceptEncoding.indexOf('gzip') > -1 &&
+      preCompressedFiles[request.url + '.gz']
+    ) {
       request.url = (request.url === '/' ? 'index.html' : request.url) + '.gz' + query;
       response.setHeader('Content-Encoding', 'gzip');
     }
